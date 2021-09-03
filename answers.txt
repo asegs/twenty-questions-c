@@ -1,0 +1,3 @@
+**example**
+Name,answers converted into char string,number of empty remaining bits at the end
+Hamburger,ns7a,3
