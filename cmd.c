@@ -18,14 +18,24 @@
 struct Answer {
     char * name;
     uint8_t * answers;
-    int remaining;
+    int questions;
 };
 
+int str_len(char * str){
+    int pos = 0;
+    while (str[pos] != 0){
+        pos++;
+    }
+    return pos;
+}
+
+int round_up(int num,int step){
+    return ((num/step) + 1) * step;
+}
+
 char * int_to_hex(uint8_t num){
-    char * output;
-    output = malloc(2);
+    char * output = malloc(2);
     sprintf(output,"%x",num);
-    printf("%s\n",output);
     return output;
 }
 
@@ -100,8 +110,45 @@ struct Answer create_answer_from_line(char * line){
     //parse line and build answer
 }
 
+uint8_t * build_num_arr_from_hex_str(char * hex,int questions){
+    int length = str_len(hex);
+}
+
+char * build_hex_str_from_num_arr(uint8_t * nums,int questions){
+    int nums_len = (questions/8) + (questions % 8 == 0);
+    int hex_len = nums_len * 2;
+    char * hex;
+    hex = malloc(hex_len * sizeof('a'));
+    for (int i = 0;i<nums_len;i++){
+        char * hexes = int_to_hex(nums[i]);
+        hex[2*i] = hexes[0];
+        hex[2*i+1] = hexes[1];
+    }
+    return hex;
+}
+
+char * answer_to_line(struct Answer answer){
+    char * output;
+    sprintf(output,"%s,",answer.name);
+    return output;
+
+}
+
 int main(){
     printf("%d\n",answer_question("Is it a living thing?","Bird"));
     printf("%d\n",count_questions());
     printf("%d\n",hex_to_int(int_to_hex(255)));
+    char a[4];
+    a[0] = 'a';
+    a[1] = 'b';
+    a[2] = EOF;
+    a[3] = 'c';
+    printf("%d\n",str_len("hello"));
+    uint8_t b[4];
+    b[0] = 129;
+    b[1] = 127;
+    b[2] = 125;
+    b[3] = 123;
+    char * m = build_hex_str_from_num_arr(b,24);
+    printf("%s\n",m);
 }
