@@ -56,10 +56,8 @@ int get_hex_val(char c,int pos){
 
 
 
-uint8_t hex_to_int(char * hex){
-    char first = hex[0];
-    char second = hex[1];
-    return get_hex_val(first,1) + get_hex_val(second,0);
+uint8_t hex_to_int(char h0,char h1){
+    return get_hex_val(h0,1) + get_hex_val(h1,0);
 }
 
 //use buffers
@@ -111,7 +109,18 @@ struct Answer create_answer_from_line(char * line){
 }
 
 uint8_t * build_num_arr_from_hex_str(char * hex,int questions){
-    int length = str_len(hex);
+
+    int cells_count = questions / 8 + 1;
+
+    uint8_t * cells;
+    cells = malloc(cells_count);
+
+
+    for (int i = 0;i<cells_count;i++){
+        cells[i] = hex_to_int(hex[2*i],hex[2*i + 1]);
+    }
+    return cells;
+
 }
 
 char * build_hex_str_from_num_arr(uint8_t * nums,int questions){
@@ -137,7 +146,7 @@ char * answer_to_line(struct Answer answer){
 int main(){
     printf("%d\n",answer_question("Is it a living thing?","Bird"));
     printf("%d\n",count_questions());
-    printf("%d\n",hex_to_int(int_to_hex(255)));
+    printf("%d\n",hex_to_int(int_to_hex(255)[0],int_to_hex(255)[1]));
     char a[4];
     a[0] = 'a';
     a[1] = 'b';
@@ -150,5 +159,7 @@ int main(){
     b[2] = 125;
     b[3] = 123;
     char * m = build_hex_str_from_num_arr(b,24);
+    uint8_t * n = build_num_arr_from_hex_str(m,24);
     printf("%s\n",m);
+    printf("%d\n",n[0]);
 }
